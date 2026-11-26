@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GTA6 陪玩手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 熱情又可靠的陪玩夥伴，像一本放在手機裡、單手就能翻的 Vice City 觀光手冊
+   IDEA: 雷昂尼達州海岸公路圖，每一章是一個停靠站
+   PICTURE: 夕陽海岸公路，七個停靠站即時顯示各章完成度
+   COLOUR and TYPE: 熱帶粉紅主色、海水藍綠輔色、陽光黃點綴；Anton 數字＋Noto Sans TC
+   LAYOUT: 手機優先：頂部固定章節列、底部拇指導覽、全站搜尋面板、卡片一次展開一張 */
+:root{color-scheme:light dark;--fs:16px;
+--bg:light-dark(#fff8f1,#121318);--ink:light-dark(#1f1a24,#f3eee8);--muted:light-dark(#6c6370,#a8a1ab);
+--card:light-dark(#ffffff,#1b1d24);--line:light-dark(#efe2d6,#2b2e37);--soft:light-dark(#fff0e4,#1f222a);
+--pink:#e83f78;--pinkd:light-dark(#c42c62,#ff6f9c);--teal:light-dark(#0b7b7f,#3fbab6);--sun:#ffb627;
+--sky1:light-dark(#ffcf6a,#f4a04a);--sky2:light-dark(#ff6f8e,#b83a6b);--sea:light-dark(#139aa0,#0d5f66);--road:light-dark(#2a2730,#0d0e12)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+:root[data-fs=l]{--fs:18px}:root[data-fs=xl]{--fs:20px}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--fs)/1.7 "Noto Sans TC",system-ui,sans-serif;overflow-x:clip;-webkit-text-size-adjust:100%}
+a{color:var(--teal)}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible,textarea:focus-visible,.stop:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.band{padding:clamp(22px,4vw,56px) max(4vw,14px)}.wrap{max-width:1240px;margin:0 auto}
+.fig{position:relative;min-height:190px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+pre,.scroll{overflow-x:auto}.scroll a{flex:none}code{overflow-wrap:anywhere}html{scroll-padding-top:116px}
+h1,h2,h3{line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(24px,3.6vw,36px);font-weight:900}h2 small{display:block;font-size:16px;font-weight:700;color:var(--muted);margin-top:6px}
+h3{font-size:19px;font-weight:900}h4{margin:14px 0 4px;font-size:1em}
+/* top bar + chapter chips */
+.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:10px;padding:6px max(4vw,14px,calc((100% - 1240px)/2))}
+.brand{font-weight:900;font-size:18px;color:var(--pinkd);text-decoration:none;margin-right:auto;white-space:nowrap}
+.pg{font-weight:700;font-size:14px;color:var(--teal);white-space:nowrap}
+.ib{min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:700 15px "Noto Sans TC",sans-serif;cursor:pointer;display:inline-grid;place-items:center;padding:0 10px}
+.chips{display:flex;gap:6px;padding:0 max(4vw,14px,calc((100% - 1240px)/2)) 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;background:var(--soft);text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;white-space:nowrap}
+.chips a[aria-current=true]{background:var(--pink);color:#fff}
+/* hero */
+.hero{background:var(--pink);color:#fff;padding-bottom:0}
+.hero .wrap{display:grid;gap:14px}
+.hero h1{font:900 clamp(30px,6vw,50px)/1.05 "Noto Sans TC",sans-serif}
+.hero p{margin:0;max-width:60ch}
+.stats{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px}.stats b{font-family:Anton,sans-serif;font-size:24px;font-weight:400;margin-right:4px}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid currentColor;background:transparent;color:inherit;font:700 16px "Noto Sans TC",sans-serif;cursor:pointer}
+.hero .btn{color:#fff}.hero .btn.solid{background:#fff;color:#c42c62;border-color:#fff}
+.sbox{display:flex;align-items:center;gap:10px;width:min(100%,520px);min-height:50px;padding:0 18px;border-radius:999px;border:0;background:#fff;color:#6c6370;font:16px "Noto Sans TC",sans-serif;cursor:pointer;text-align:left}
+.sbox svg{flex:none}
+.route{margin:0 calc(-1*max(4vw,14px));height:clamp(190px,32vw,340px)}
+.route text{font-family:"Noto Sans TC",sans-serif}.route .stop{cursor:pointer}.route .stop:focus{outline:none}
+/* sections */
+.chh{display:grid;gap:8px;margin-bottom:16px}.chh p{margin:0;max-width:70ch}
+.kick{font-weight:900;color:var(--pinkd)}.prog{font-weight:700;color:var(--teal)}
+.warn{background:light-dark(#fff3d1,#2b2513);border-left:6px solid var(--sun);padding:12px 14px;border-radius:10px}
+.warn ul{margin:6px 0 0;padding-left:20px}
+.chap:nth-of-type(even){background:var(--soft)}
+.ms{display:grid;gap:10px}
+.m{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;align-items:start}
+.chk{appearance:none;width:44px;height:44px;margin:4px 0 0;border:2px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;display:grid;place-items:center}
+.chk:checked{background:var(--teal);border-color:var(--teal)}
+.chk:checked::after{content:"";width:12px;height:22px;border:solid #fff;border-width:0 4px 4px 0;transform:translateY(-3px) rotate(45deg)}
+details.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+details.card>summary{list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto;column-gap:10px;row-gap:4px;align-items:center;min-height:56px;padding:10px 14px;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary::after{content:"＋";grid-column:3;grid-row:1;font-weight:900;color:var(--muted)}
+details.card[open]>summary::after{content:"－"}
+details.card[open]>summary{position:sticky;top:104px;z-index:2;background:var(--card);border-radius:14px 14px 0 0;border-bottom:1px solid var(--line)}
+.no{grid-column:1;grid-row:1/3;font-family:Anton,sans-serif;font-size:22px;color:var(--pinkd);min-width:1.8em}
+.nm{grid-column:2;grid-row:1}.nm b{display:block;font-size:1.05em;line-height:1.3}.nm small{display:block;color:var(--muted);font-size:14px;line-height:1.4}
+.bs{grid-column:2;grid-row:2;display:flex;flex-wrap:wrap;gap:6px}.bs:empty{display:none}
+.b{font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--soft);white-space:nowrap}
+.b.opt{background:light-dark(#dff3f2,#173235);color:var(--teal)}.b.miss{background:var(--sun);color:#3a2600}
+.b.ponr{background:var(--pink);color:#fff}.b.low{background:light-dark(#eee,#2d2f36);color:var(--muted)}
+.body{padding:2px 16px 16px}
+.body ol,.body ul{padding-left:22px;margin:4px 0}.body li{margin:6px 0}.body p{margin:10px 0}
+.done details.card{opacity:.62}.done .nm b{text-decoration:line-through}
+.hide-done .m.done{display:none}
+.spoil{margin:12px 0;border:2px dashed var(--pink);border-radius:12px;padding:0 14px}
+.spoil>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:900;color:var(--pinkd)}
+.spoil[open]{background:light-dark(#fff1f5,#2a1820)}
+.ponrbar{background:var(--pink);color:#fff;border-radius:12px;padding:12px 14px;font-weight:700}
+.note{color:var(--muted);font-size:14px}.src{font-size:13px;color:var(--muted);margin:6px 0 0}
+.img{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;background:var(--teal);color:#fff;font-weight:700;text-decoration:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile .big{font-family:Anton,sans-serif;font-size:32px;color:var(--pinkd);line-height:1}
+.sec>summary .nm b{font-size:20px;font-weight:900}
+.sec .body{padding-top:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:14px;color:var(--muted)}
+.grade{font-weight:900;white-space:nowrap}.g-platinum{color:var(--teal)}.g-gold{color:#b07800}.g-silver{color:var(--muted)}.g-bronze{color:#a0522d}
+.filters{display:flex;gap:8px;margin:12px 0;overflow-x:auto;scrollbar-width:none}
+.filters button{flex:none;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:700 15px "Noto Sans TC",sans-serif;cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.empty{padding:16px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.flash{animation:flash 1.6s ease-out}@keyframes flash{0%,40%{box-shadow:0 0 0 4px var(--sun)}100%{box-shadow:0 0 0 0 transparent}}
+.foot{background:var(--road);color:#e9e3dc}.foot a{color:#7fdcd7}
+.foot textarea{width:100%;min-height:88px;font:16px monospace;border-radius:10px;padding:10px;border:0}
+.foot .btn{color:#fff}.msg{min-height:1.6em;font-weight:700;color:var(--sun)}
+.srcs{columns:2 280px;font-size:14px}.srcs li{break-inside:avoid;margin:2px 0}
+/* search sheet */
+.sheet{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+.sheet[hidden]{display:none}
+.shbar{display:flex;gap:8px;align-items:center;padding:10px max(4vw,14px);border-bottom:1px solid var(--line);background:var(--card)}
+.shbar input{flex:1;min-height:48px;font:16px "Noto Sans TC",sans-serif;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.shbody{flex:1;overflow-y:auto;padding:12px max(4vw,14px) 40px;max-width:820px;width:100%;margin:0 auto}
+.hint{color:var(--muted);font-size:14px;margin:4px 0 10px}
+.sugg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sugg button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:15px "Noto Sans TC",sans-serif;cursor:pointer}
+.res{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.res button{width:100%;text-align:left;display:grid;gap:2px;padding:12px 14px;min-height:56px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.res b{font-size:1em;line-height:1.35}.res small{color:var(--muted);font-size:13px}.res .where{color:var(--pinkd);font-weight:700;font-size:13px}
+/* bottom dock (phones) */
+.dock{display:none}
+@media(max-width:700px){
+ body{padding-bottom:76px}
+ .dock{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+ .dock button{min-height:56px;border:0;background:none;color:var(--ink);font:700 12px "Noto Sans TC",sans-serif;display:grid;place-items:center;gap:2px;cursor:pointer;border-radius:12px}
+ .dock button:active{background:var(--soft)}
+ .dock svg{width:22px;height:22px}
+ .hero .ctrl .btn{flex:1}
+ .grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:5.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:5em;margin-inline-start:-5.5em;white-space:normal;color:var(--muted)}.stack td:empty{display:none}
+.m{grid-template-columns:40px minmax(0,1fr)}.chk{width:40px;height:40px}.body{padding:2px 12px 14px}details.card>summary{padding:10px 12px}}
+@media(prefers-reduced-motion:no-preference){.chk:checked{animation:pop .25s ease-out}@keyframes pop{50%{transform:scale(1.15)}}}
+@media(prefers-reduced-motion:reduce){.flash{animation:none;outline:3px solid var(--sun)}}
+</style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script></head>
+<body>
+<header class="top">
+  <div class="bar">
+    <a class="brand" href="#home">GTA6 陪玩手冊</a>
+    <span class="pg" id="pg"></span>
+    <button class="ib" id="topSearch" type="button" aria-label="搜尋"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button>
+    <button class="ib" id="fontBtn" type="button" aria-label="調整字級">字 A</button>
+  </div>
+  <nav class="chips scroll" id="toc" aria-label="章節導覽"></nav>
+</header>
+<section class="band hero" id="home">
+  <div class="wrap">
+    <h1>GTA6 陪玩手冊</h1>
+    <p>PS5 繁中攻略：從序章走到結局，每個任務一步一步帶你過。會暴雷的地方都先收起來，想看再點開。</p>
+    <button class="sbox" id="heroSearch" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>搜尋任務、彩蛋、密碼、獎盃…</button>
+    <div class="stats" id="stats"></div>
+    <div class="ctrl">
+      <button class="btn solid" id="next" type="button">繼續下一個任務</button>
+      <button class="btn" id="hideDone" type="button" aria-pressed="false">隱藏已完成</button>
+    </div>
+    <div class="fig route" id="route" role="img" aria-label="各章完成度公路圖"><svg id="routeSvg"></svg></div>
+  </div>
+</section>
+<main id="main"><div class="band"><div class="wrap empty">攻略資料載入中…</div></div></main>
+<footer class="band foot" id="progress">
+  <div class="wrap" style="display:grid;gap:14px">
+    <h2>我的進度</h2>
+    <p>進度只存在這台裝置的瀏覽器裡。換手機或電腦前，先按「複製進度碼」，到另一台貼上再按「還原進度」。</p>
+    <div class="ctrl">
+      <button class="btn" id="copyCode" type="button">複製進度碼</button>
+      <button class="btn" id="restore" type="button">還原進度</button>
+      <button class="btn" id="reset" type="button">清除全部進度</button>
+    </div>
+    <textarea id="code" aria-label="進度碼" placeholder="進度碼會出現在這裡，也可以把別台裝置的進度碼貼進來"></textarea>
+    <p class="msg" id="msg" role="status"></p>
+    <p id="updated" class="note" style="color:#bdb5ad"></p>
+    <p class="note" style="color:#bdb5ad">非官方攻略，與 Rockstar Games 無關。遊戲畫面、地圖與原站圖文攻略的版權屬於各自的所有者，本頁只提供連結並註明來源；文字皆為重新撰寫。</p>
+  </div>
+</footer>
+<nav class="dock" aria-label="快速操作">
+  <button type="button" id="dNext"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>繼續</button>
+  <button type="button" id="dSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>搜尋</button>
+  <button type="button" data-go="#eggs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3c-4 0-7 6-7 10.5A7 7 0 0 0 12 21a7 7 0 0 0 7-7.5C19 9 16 3 12 3z"/></svg>彩蛋</button>
+  <button type="button" data-go="#progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6"/></svg>進度</button>
+  <button type="button" data-go="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 11l7-7 7 7"/></svg>頂端</button>
+</nav>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="搜尋" hidden>
+  <div class="shbar">
+    <input id="q" type="search" placeholder="輸入任務名、角色、密碼、彩蛋…" aria-label="搜尋關鍵字" autocomplete="off">
+    <button class="ib" id="closeSearch" type="button">關閉</button>
+  </div>
+  <div class="shbody">
+    <p class="hint" id="qcount">可以打中文或英文，多個關鍵字用空格分開。搜尋不會比對暴雷內容。</p>
+    <div class="sugg" id="sugg"></div>
+    <ul class="res" id="results"></ul>
+  </div>
+</div>
+<script id="gdata" type="application/json">null</script>
+<script>
+{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const U=u=>/^https?:\/\/[^\s"'<>]+$/i.test(String(u||''))?esc(u):'';
+const L=a=>Array.isArray(a)?a.filter(x=>x!==null&&x!==undefined&&x!==''):[];
+const sid=s=>String(s||'').toLowerCase().replace(/[^a-z0-9-]/g,'-');
+const host=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return ''}};
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const narrow=()=>matchMedia('(max-width:700px)').matches;
+const smooth=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+let done=new Set(store.get('gta6-done',[]));
+const ul=a=>L(a).length?`<ul>${L(a).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'';
+const ol=a=>L(a).length?`<ol>${L(a).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:'';
+const P=(label,t)=>t?`<p><b>${label}：</b>${esc(t)}</p>`:'';
+const srcs=a=>{a=L(a).filter(s=>s&&U(s.url));return a.length?`<p class="src">來源：${a.map(s=>`<a href="${U(s.url)}" target="_blank" rel="noopener">${esc(s.title||host(s.url))}</a>`).join('、')}</p>`:''};
+const imgLink=(u,t='看原站圖文攻略 ↗')=>U(u)?`<p><a class="img" href="${U(u)}" target="_blank" rel="noopener">${t}</a></p>`:'';
+const spoil=(html,label='劇情暴雷')=>html?`<details class="spoil"><summary>${label}：點開才顯示</summary><div>${html}</div></details>`:'';
+const low=c=>c==='low'?'<span class="b low">資料不足</span>':'';
+const isX=u=>/^(x|twitter)\.com$/.test(host(u));
+const xOnly=a=>{a=L(a).filter(s=>s&&s.url);return a.length&&a.every(s=>isX(s.url))?'<span class="b">X 社群回報</span>':''};
+const who={Jason:'Jason',Lucia:'Lucia',Both:'兩人同行',Switch:'可切換角色'};
+const chk=(id,label)=>`<input type="checkbox" class="chk" data-id="${esc(id)}" aria-label="標記完成：${esc(label)}"${done.has(id)?' checked':''}>`;
+const row=(id,q,label,summary,body,extra='')=>`<div class="m${done.has(id)?' done':''}" data-id="${esc(id)}"${extra}>${chk(id,label)}<details class="card" id="d-${sid(id)}"><summary>${summary}</summary><div class="body">${body}</div></details></div>`;
+const secBox=(id,kick,title,sub,inner,cls='')=>`<section class="band ${cls}" id="${id}"><div class="wrap"><details class="card sec"><summary><span class="nm"><b>${title}</b><small>${sub}</small></span></summary><div class="body">${inner}</div></details></div></section>`;
+
+function changes(c){
+  c=L(c);if(!c.length)return '';
+  const one=x=>`<p><b>${esc(x.date)}</b></p>${ul(x.items_zh)}`;
+  return secBox('news','最近更新','最近更新',`${esc(c[0].date)}・${L(c[0].items_zh).length} 項更新，點開看`,`${one(c[0])}${c.length>1?`<details class="spoil" style="border-style:solid;border-color:var(--line)"><summary style="color:var(--ink)">更早的更新</summary><div>${c.slice(1).map(one).join('')}</div></details>`:''}`);
+}
+function mission(m){
+  const id=m.id||('m-'+sid(m.name_en));
+  const badges=[m.type==='optional'?'<span class="b opt">選擇性</span>':'',m.missable?'<span class="b miss">會錯過</span>':'',m.point_of_no_return?'<span class="b ponr">不可逆</span>':'',m.character&&who[m.character]?`<span class="b">${who[m.character]}</span>`:'',low(m.confidence),xOnly(m.sources)].join('');
+  const st=L(m.steps_zh).length?(m.steps_spoil?spoil(ol(m.steps_zh),'步驟會透露劇情'):`<h4>步驟</h4>${ol(m.steps_zh)}`):'<p class="note">這個任務的詳細步驟還在等攻略站整理，可以先點下面的原站連結。</p>';
+  const body=[P('怎麼開始',m.start_zh),st,L(m.tips_zh).length?`<h4>卡關提示</h4>${ul(m.tips_zh)}`:'',L(m.choices_zh).length?spoil(ul(m.choices_zh),'選擇與後果（可能有雷）'):'',P('獎勵',m.rewards_zh),spoil(m.spoiler_zh?`<p>${esc(m.spoiler_zh)}</p>`:''),m.note_zh?`<p class="note">${esc(m.note_zh)}</p>`:'',imgLink(m.image_guide_url),srcs(m.sources)].join('');
+  const sum=`<span class="no">${m.no??'＋'}</span><span class="nm"><b>${esc(m.name_en)}</b><small>${esc(m.name_zh)}</small></span><span class="bs">${badges}</span>`;
+  const bar=m.point_of_no_return?`<div class="ponrbar">先手動存檔！下一個任務是本章的不可逆節點，完成後就回不了頭。想做的選擇性任務、支線和存錢目標請先完成。</div>`:'';
+  return bar+row(id,'',m.name_en,sum,body,` data-main="${m.type==='optional'?0:1}"`);
+}
+function chapter(c){
+  const t=c.chapter?`第 ${c.chapter} 章`:'序章';
+  return `<section class="band chap" id="ch${c.chapter}" data-label="${t}"><div class="wrap"><header class="chh"><p class="kick">${t}</p><h2>${esc(c.name_en)}${c.name_zh?`<small>${esc(c.name_zh)}</small>`:''}</h2>${c.intro_zh?`<p>${esc(c.intro_zh)}</p>`:''}${L(c.warnings_zh).length?`<details class="spoil" style="border-style:solid;border-color:var(--sun)"><summary style="color:inherit">本章注意事項（${L(c.warnings_zh).length} 則，建議先看）</summary><div>${ul(c.warnings_zh)}</div></details>`:''}<p class="prog" data-ch="${c.chapter}"></p></header><div class="ms">${L(c.missions).map(mission).join('')||'<p class="empty">本章資料整理中。</p>'}</div></div></section>`;
+}
+function endings(e){
+  if(!e||!L(e.endings).length)return '';
+  const sys=L(e.systems_zh).map(s=>`<div class="tile"><h3>${esc(s.name)}</h3><p>${esc(s.how_zh)}</p></div>`).join('');
+  const ends=L(e.endings).map((x,i)=>`<details class="card"><summary><span class="no">${i+1}</span><span class="nm"><b>${esc(x.name_zh||x.name_en)}</b><small>${esc(x.name_en&&x.name_zh?x.name_en:'')}</small></span><span class="bs">${low(x.confidence)}</span></summary><div class="body">${L(x.requirements_zh).length?`<h4>條件</h4>${ul(x.requirements_zh)}`:''}${P('怎麼達成',x.how_zh)}${srcs(x.sources)}</div></details>`).join('');
+  return `<section class="band" id="endings" data-label="結局"><div class="wrap"><header class="chh"><p class="kick">結局</p><h2>結局與決定因素</h2><p>結局由最後兩個任務的選擇，再加上整段劇情累積的關係、家庭存款與犯罪紀錄決定。整區都是重大暴雷。</p></header>${spoil(`${e.note_zh?`<div class="warn">${esc(e.note_zh)}</div>`:''}${srcs(e.sources)}<div class="grid" style="margin-top:12px">${sys}</div><div class="ms" style="margin-top:14px">${ends}</div>${e.replay_zh?`<p><b>重玩結局：</b>${esc(e.replay_zh)}</p>`:''}`,'結局全攻略（重大暴雷）')}</div></section>`;
+}
+function side(s){
+  if(!s)return '';
+  const q=L(s.questlines).map(x=>{const id=x.id||('sf-'+sid(x.name_en));
+    const parts=L(x.parts).map(p=>`<h4>${esc(p.name_en)}</h4>${x.steps_spoil?spoil(ol(p.steps_zh),'步驟會透露劇情'):ol(p.steps_zh)}${ul(p.tips_zh)}`).join('');
+    const body=[P('委託人',x.giver),P('地點',x.location_zh),P('解鎖',x.available_zh),parts,P('獎勵',x.rewards_zh),P('相關獎盃',x.trophy),spoil(x.spoiler_zh?`<p>${esc(x.spoiler_zh)}</p>`:''),x.note_zh?`<p class="note">${esc(x.note_zh)}</p>`:'',imgLink(x.image_guide_url),srcs(x.sources)].join('');
+    return row(id,'',x.name_en,`<span class="no"></span><span class="nm"><b>${esc(x.name_en)}</b><small>${esc(x.name_zh)}</small></span><span class="bs">${x.missable?'<span class="b miss">會錯過</span>':''}${low(x.confidence)}${xOnly(x.sources)}</span>`,body);}).join('');
+  const act=L(s.activities).map(a=>`<div class="tile" data-s="1"><h3>${esc(a.name_zh||a.name_en)}</h3>${a.name_zh?`<p class="note">${esc(a.name_en)}</p>`:''}<p>${esc(a.how_zh)}</p>${P('收穫',a.rewards_zh)}${srcs(a.sources)}</div>`).join('');
+  return `<section class="band chap" id="side" data-label="支線"><div class="wrap"><header class="chh"><p class="kick">支線</p><h2>Strangers &amp; Freaks 與支線活動</h2>${s.intro_zh?`<details class="spoil" style="border-style:solid;border-color:var(--line)"><summary style="color:inherit">支線總說明（哪些會錯過、獎盃算哪幾條）</summary><div><p>${esc(s.intro_zh)}</p></div></details>`:''}</header><div class="ms">${q}</div>${act?`<h3 style="margin:28px 0 12px">支線活動與賺錢</h3><div class="grid">${act}</div>`:''}</div></section>`;
+}
+function collect(c){
+  if(!c||!L(c.categories).length)return '';
+  return `<section class="band" id="collect" data-label="收集品"><div class="wrap"><header class="chh"><p class="kick">收集品</p><h2>收集品一覽</h2></header><div class="grid">${L(c.categories).map(x=>`<div class="tile" data-s="1"><div class="big">${x.total?esc(x.total):'?'}</div><h3>${esc(x.name_zh||x.name_en)}</h3><p class="note">${esc(x.name_en)}</p>${P('何時開放',x.unlock_zh)}<p>${esc(x.how_zh)}</p>${ul(x.tips_zh)}${P('全收集獎勵',x.reward_zh)}${imgLink(x.map_url,'看原站地圖 ↗')}${srcs(x.sources)}${low(x.confidence)}</div>`).join('')}</div></div></section>`;
+}
+const gname={platinum:'白金',gold:'金',silver:'銀',bronze:'銅'};
+function trophies(t){
+  if(!t||!L(t.trophies).length)return '';
+  const rows=L(t.trophies).map(x=>`<tr data-g="${esc(x.grade)}" data-miss="${x.missable?1:0}" data-s="1"><td><span class="grade g-${esc(x.grade)}">${gname[x.grade]||esc(x.grade)}</span></td><td><b>${esc(x.name_en)}</b>${x.name_zh?`<br><small>${esc(x.name_zh)}</small>`:''}${x.missable?' <span class="b miss">會錯過</span>':''}</td><td>${x.spoiler?spoil(`<p>${esc(x.desc_zh)}</p>`,'說明有雷'):esc(x.desc_zh)}</td><td>${x.spoiler?spoil(`<p>${esc(x.how_zh)}</p>`,'方法有雷'):esc(x.how_zh)}${srcs(x.sources)}</td></tr>`).join('');
+  return `<section class="band chap" id="trophies" data-label="獎盃"><div class="wrap"><header class="chh"><p class="kick">PS5 獎盃</p><h2>獎盃清單${t.total?`（共 ${esc(t.total)} 個）`:''}</h2></header>${L(t.missable_summary_zh).length?`<div class="warn"><b>會錯過的獎盃</b>${ul(t.missable_summary_zh)}</div>`:''}${L(t.platinum_tips_zh).length?`<details class="spoil" style="border-style:solid;border-color:var(--line)"><summary style="color:inherit">白金路線建議（${L(t.platinum_tips_zh).length} 則）</summary><div>${ul(t.platinum_tips_zh)}</div></details>`:''}<div class="filters" role="group" aria-label="篩選獎盃"><button type="button" data-f="all" aria-pressed="true">全部</button><button type="button" data-f="miss" aria-pressed="false">只看會錯過</button>${['platinum','gold','silver','bronze'].map(g=>`<button type="button" data-f="${g}" aria-pressed="false">${gname[g]}</button>`).join('')}</div><table class="stack" id="tt"><thead><tr><th>等級</th><th>獎盃</th><th>條件</th><th>怎麼拿</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+function tips(t){
+  if(!t)return '';
+  const cards=a=>L(a).map(x=>`<div class="tile" data-s="1"><h3>${esc(x.title_zh)}</h3><p>${esc(x.body_zh)}</p>${srcs(x.sources)}</div>`).join('');
+  const ctl=L(t.controls_ps5).length?`<details class="spoil" style="border-style:solid;border-color:var(--line);margin-top:20px"><summary style="color:inherit">PS5 完整操作表（${L(t.controls_ps5).length} 項）</summary><div><table class="stack"><thead><tr><th>動作</th><th>按鍵</th></tr></thead><tbody>${L(t.controls_ps5).map(c=>`<tr><td>${esc(c.action_zh)}</td><td><b>${esc(c.button)}</b></td></tr>`).join('')}</tbody></table></div></details>`:'';
+  const cl=t.cheats?L(t.cheats.list):[],known=cl.filter(c=>c.input_ps5),unk=cl.filter(c=>!c.input_ps5);
+  const ch=cl.length?`<details class="spoil" style="border-style:solid;border-color:var(--line)"><summary style="color:inherit">PS5 作弊碼（破關後才能用，${known.length} 個已知輸入）</summary><div>${t.cheats.note_zh?`<div class="warn">${esc(t.cheats.note_zh)}</div>`:''}${known.length?`<table class="stack" style="margin-top:10px"><thead><tr><th>效果</th><th>輸入</th></tr></thead><tbody>${known.map(c=>`<tr><td>${esc(c.effect_zh)}${srcs(c.sources)}</td><td><b>${esc(c.input_ps5)}</b></td></tr>`).join('')}</tbody></table>`:''}${unk.length?`<h4>還沒公開輸入方式（${unk.length} 個）</h4>${ul(unk.map(c=>String(c.effect_zh||'').replace(/（指令待補）/,'')))}`:''}</div></details>`:'';
+  const n=L(t.basics).length;
+  return secBox('tips','開玩前必讀','開玩前必讀：不卡關的基本功',`${n} 則重點、賺錢存錢、PS5 操作表、作弊碼，點開看`,`<div class="grid">${cards(t.basics)}</div>${L(t.money_zh).length?`<h3 style="margin:24px 0 10px">錢怎麼賺、怎麼存</h3><div class="grid">${cards(t.money_zh)}</div>`:''}${ctl}${ch}`);
+}
+function eggs(e){
+  if(!e||!L(e.eggs).length)return '';
+  const r=L(e.eggs).map(x=>{const id=x.id||('egg-'+sid(x.name_en));
+    const inner=[P('地點',x.location_zh),P('何時能找',x.when_zh),L(x.how_zh).length?`<h4>怎麼觸發</h4>${ol(x.how_zh)}`:''].join('');
+    const body=[x.spoiler?spoil(inner,'位置與觸發方式有雷'):inner,P('獎勵',x.reward_zh),x.note_zh?`<p class="note">${esc(x.note_zh)}</p>`:'',x.evidence_zh?`<p class="note">實際發現：${esc(x.evidence_zh)}</p>`:'',imgLink(x.image_guide_url,'看原站圖文或影片 ↗'),srcs(x.sources)].join('');
+    return row(id,'',x.name_zh||x.name_en,`<span class="no"></span><span class="nm"><b>${esc(x.name_zh||x.name_en)}</b><small>${esc(x.name_zh?x.name_en:'')}</small></span><span class="bs">${x.category_zh?`<span class="b">${esc(x.category_zh)}</span>`:''}${x.missable?'<span class="b miss">會錯過</span>':''}${x.spoiler?'<span class="b ponr">有雷</span>':''}${low(x.confidence)}${xOnly(x.sources)}</span>`,body);}).join('');
+  return `<section class="band chap" id="eggs" data-label="彩蛋"><div class="wrap"><header class="chh"><p class="kick">彩蛋</p><h2>遊戲內已證實的彩蛋與秘密</h2><p>只收錄發售後玩家在遊戲裡實際找到的彩蛋，預告片和外流的傳聞不算。找到了就打勾。</p></header><div class="ms">${r}</div></div></section>`;
+}
+function sources(all){
+  const m=new Map();for(const s of all)if(s&&U(s.url)&&!m.has(s.url))m.set(s.url,s);
+  const by={};for(const s of m.values())(by[host(s.url)]??=[]).push(s);
+  const hs=Object.keys(by).sort((a,b)=>by[b].length-by[a].length);
+  return `<section class="band" id="sources" data-label="來源"><div class="wrap"><header class="chh"><p class="kick">來源</p><h2>參考來源（${m.size} 頁）</h2><p>文字都是根據下列網站重新整理撰寫；圖片與地圖請到原站觀看。</p></header><div class="ms">${hs.map(h=>`<details class="card"><summary><span class="no"></span><span class="nm"><b>${esc(h)}</b></span><span class="bs"><span class="b">${by[h].length} 頁</span></span></summary><div class="body"><ul class="srcs">${by[h].map(s=>`<li><a href="${U(s.url)}" target="_blank" rel="noopener">${esc(s.title||s.url)}</a></li>`).join('')}</ul></div></details>`).join('')}</div></div></section>`;
+}
+function collectSources(D){const out=[],walk=o=>{if(Array.isArray(o))o.forEach(walk);else if(o&&typeof o==='object'){for(const[k,v]of Object.entries(o)){if(k==='sources'&&Array.isArray(v))out.push(...v);else walk(v)}}};walk(D);return out}
+
+/* route picture */
+const route=$('#routeSvg');let stopsData=[];
+function chProg(n){const ms=$$(`#ch${n} .m`);const d=ms.filter(m=>m.classList.contains('done')).length;return{d,t:ms.length}}
+function drawRoute(){
+  const W=route.clientWidth,H=route.clientHeight;if(!W||!H||!stopsData.length)return;
+  const n=stopsData.length,pad=W<520?30:Math.max(60,W*.08),sea=H*.64,amp=W<520?H*.13:H*.16;
+  const pts=stopsData.map((s,i)=>({x:pad+(W-2*pad)*(n>1?i/(n-1):.5),y:sea-22-(i%2?amp:H*.03)}));
+  let d=`M-20,${pts[0].y+30}`;pts.forEach((p,i)=>{const q=i?pts[i-1]:{x:-20,y:p.y+30};const mx=(q.x+p.x)/2;d+=` C${mx},${q.y} ${mx},${p.y} ${p.x},${p.y}`});
+  const l=pts[pts.length-1];d+=` C${(l.x+W+20)/2},${l.y} ${(l.x+W+20)/2},${l.y+30} ${W+20},${l.y+30}`;
+  const palm=`<g id="palm"><path d="M0 0 C4 -30 6 -60 2 -90" stroke="var(--road)" stroke-width="5" fill="none"/><path d="M2 -90 c-20 -6 -34 2 -42 14 M2 -90 c18 -8 34 -2 42 10 M2 -90 c-6 -16 -22 -22 -34 -18 M2 -90 c8 -16 24 -18 34 -12 M2 -90 c0 -14 6 -24 14 -28" stroke="var(--road)" stroke-width="6" fill="none" stroke-linecap="round"/></g>`;
+  const r=W<520?14:18,fs=W<520?12:14;
+  route.innerHTML=`<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pink)"/><stop offset=".55" stop-color="var(--sky2)"/><stop offset="1" stop-color="var(--sky1)"/></linearGradient>${palm}</defs>
+  <rect width="${W}" height="${sea}" fill="url(#sky)"/><circle cx="${W*.78}" cy="${sea}" r="${Math.min(W,H)*.22}" fill="var(--sun)" opacity=".95"/>
+  <rect y="${sea}" width="${W}" height="${H-sea}" fill="var(--sea)"/>${[0,1,2].map(i=>`<rect x="${W*.62}" y="${sea+8+i*12}" width="${W*.32-i*W*.06}" height="3" rx="1.5" fill="#fff" opacity=".35"/>`).join('')}
+  ${W>=520?`<use href="#palm" transform="translate(${W*.02},${sea+4}) scale(${H/320})"/><use href="#palm" transform="translate(${W*.985},${sea+6}) scale(${-H/300},${H/300})"/>`:''}
+  <path d="${d}" stroke="var(--road)" stroke-width="${W<520?14:22}" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#fff" stroke-width="2" stroke-dasharray="10 10" fill="none" opacity=".8"/>
+  ${pts.map((p,i)=>{const s=stopsData[i],pr=s.prog(),f=pr.t?pr.d/pr.t:0,c=2*Math.PI*(r+4),above=i%2===1;
+    return `<g class="stop" tabindex="0" role="link" aria-label="${esc(s.label)}，完成 ${pr.d}/${pr.t}" data-go="${esc(s.go)}"><circle cx="${p.x}" cy="${p.y}" r="${r+10}" fill="transparent"/><circle cx="${p.x}" cy="${p.y}" r="${r}" fill="#fff"/><circle cx="${p.x}" cy="${p.y}" r="${r+4}" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="5"/><circle cx="${p.x}" cy="${p.y}" r="${r+4}" fill="none" stroke="var(--teal)" stroke-width="5" stroke-dasharray="${c*f} ${c}" transform="rotate(-90 ${p.x} ${p.y})" stroke-linecap="round"/><text x="${p.x}" y="${p.y+fs*.36}" text-anchor="middle" font-size="${fs}" font-weight="900" fill="#c42c62">${esc(s.short)}</text><text x="${p.x}" y="${above?p.y-r-14:p.y+r+fs+10}" text-anchor="middle" font-size="${fs}" font-weight="900" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width="3" paint-order="stroke">${esc(s.label)}</text>${pr.t?`<text x="${p.x}" y="${above?p.y-r-16-fs:p.y+r+fs*2+12}" text-anchor="middle" font-size="${fs-1}" font-weight="700" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width="3" paint-order="stroke">${Math.round(f*100)}%</text>`:''}</g>`}).join('')}`;
+}
+const ro=new ResizeObserver(drawRoute);
+
+function refresh(){
+  $$('.m').forEach(m=>m.classList.toggle('done',done.has(m.dataset.id)));
+  $$('.prog').forEach(p=>{const{d,t}=chProg(p.dataset.ch);p.textContent=t?`本章完成 ${d} / ${t}`:''});
+  const all=$$('.chap[id^=ch] .m'),dn=all.filter(m=>m.classList.contains('done')).length;
+  $('#pg').textContent=`${dn}/${all.length} 完成`;
+  $('#stats').innerHTML=`<span><b>${dn}</b>/ ${all.length} 劇情任務</span>`+($('#stats').dataset.extra||'');
+  drawRoute();
+}
+function openTo(el){
+  if(!el)return;
+  let p=el.parentElement;while(p){if(p.tagName==='DETAILS'&&!p.classList.contains('spoil'))p.open=true;if(p.tagName==='DETAILS'&&p.classList.contains('spoil')&&!p.closest('#endings'))p.open=true;p=p.parentElement}
+  const d=el.matches('.m')?el.querySelector('details.card'):null;if(d)d.open=true;
+  requestAnimationFrame(()=>{el.scrollIntoView({block:'start',behavior:smooth()});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')});
+}
+function go(sel){const el=$(sel);if(el)el.scrollIntoView({behavior:smooth()})}
+
+/* search */
+let index=[];
+function buildIndex(){
+  index=[...$$('.m'),...$$('[data-s]')].map(el=>{
+    const sec=el.closest('section');const label=sec?.dataset.label||sec?.querySelector('.kick')?.textContent||'';
+    const title=el.querySelector('.nm b,h3,td b')?.textContent||'';const sub=el.querySelector('.nm small,.note')?.textContent||'';
+    let text=el.textContent;el.querySelectorAll('.spoil').forEach(s=>{text=text.replace(s.textContent,' ')});
+    return{el,title,sub,label,text:(title+' '+sub+' '+text).toLowerCase()};
+  });
+}
+const sheet=$('#sheet'),qi=$('#q');let lastFocus=null;
+function openSearch(){lastFocus=document.activeElement;sheet.hidden=false;document.body.style.overflow='hidden';qi.focus();qi.select();runSearch()}
+function closeSearch(){sheet.hidden=true;document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+const SUG=['不可逆','會錯過','存錢','密碼','坦克','幽浮','Bigfoot','Lucia','白金','作弊'];
+$('#sugg').innerHTML=SUG.map(s=>`<button type="button">${esc(s)}</button>`).join('');
+function runSearch(){
+  const q=qi.value.trim().toLowerCase(),terms=q.split(/\s+/).filter(Boolean);
+  $('#sugg').style.display=q?'none':'';
+  if(!terms.length){$('#results').innerHTML='';$('#qcount').textContent='可以打中文或英文，多個關鍵字用空格分開。搜尋不會比對暴雷內容。';return}
+  const hits=index.map((x,i)=>({x,i})).filter(({x})=>terms.every(t=>x.text.includes(t)));
+  hits.sort((a,b)=>{const at=terms.every(t=>a.x.title.toLowerCase().includes(t)),bt=terms.every(t=>b.x.title.toLowerCase().includes(t));return (bt-at)||(a.i-b.i)});
+  $('#qcount').textContent=hits.length?`找到 ${hits.length} 筆${hits.length>60?'，顯示前 60 筆':''}`:'找不到，換個關鍵字試試（例如英文任務名）。';
+  $('#results').innerHTML=hits.slice(0,60).map(({x,i})=>`<li><button type="button" data-i="${i}"><span class="where">${esc(x.label)}${x.el.classList.contains('done')?'・已完成':''}</span><b>${esc(x.title)}</b>${x.sub?`<small>${esc(x.sub.slice(0,80))}</small>`:''}</button></li>`).join('');
+}
+qi.addEventListener('input',runSearch);
+$('#sugg').addEventListener('click',e=>{const b=e.target.closest('button');if(b){qi.value=b.textContent;runSearch();qi.focus()}});
+$('#results').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const x=index[+b.dataset.i];closeSearch();openTo(x.el)});
+sheet.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch()});
+['#topSearch','#heroSearch','#dSearch'].forEach(s=>$(s).addEventListener('click',openSearch));
+$('#closeSearch').addEventListener('click',closeSearch);
+
+/* chips: highlight current section */
+let io=null;
+function watchSections(){
+  io&&io.disconnect();
+  io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){const id=e.target.id;$$('#toc a').forEach(a=>{const on=a.getAttribute('href')==='#'+id;a.setAttribute('aria-current',on);if(on){const t=$('#toc');t.scrollLeft=a.offsetLeft-t.clientWidth/2+a.offsetWidth/2}})}},{rootMargin:'-120px 0px -70% 0px'});
+  $$('#main>section,#home,#progress').forEach(s=>io.observe(s));
+}
+
+function render(D){
+  const chs=L(D.chapters).sort((a,b)=>a.chapter-b.chapter);
+  $('#main').innerHTML=changes(D.changelog)+tips(D.tips)+chs.map(chapter).join('')+endings(D.endings)+side(D.side)+collect(D.collectibles)+trophies(D.trophies)+eggs(D.eggs)+sources(collectSources(D));
+  const tocItems=[['news','更新'],['tips','必讀'],...chs.map(c=>[`ch${c.chapter}`,c.chapter?`第${c.chapter}章`:'序章']),['endings','結局'],['side','支線'],['collect','收集品'],['trophies','獎盃'],['eggs','彩蛋'],['sources','來源'],['progress','進度']];
+  $('#toc').innerHTML=tocItems.filter(([id])=>document.getElementById(id)).map(([id,t])=>`<a href="#${id}">${t}</a>`).join('');
+  const nm=chs.reduce((a,c)=>a+L(c.missions).filter(m=>m.type!=='optional').length,0),no=chs.reduce((a,c)=>a+L(c.missions).filter(m=>m.type==='optional').length,0);
+  $('#stats').dataset.extra=`<span><b>${nm}</b>主線</span><span><b>${no}</b>選擇性</span><span><b>${L(D.side&&D.side.questlines).length}</b>支線</span><span><b>${L(D.eggs&&D.eggs.eggs).length}</b>彩蛋</span>`;
+  stopsData=chs.map(c=>({label:c.chapter?`第${c.chapter}章`:'序章',short:c.chapter?String(c.chapter):'序',go:`#ch${c.chapter}`,prog:()=>chProg(c.chapter)}));
+  if(D.endings&&L(D.endings.endings).length)stopsData.push({label:'結局',short:'終',go:'#endings',prog:()=>({d:0,t:0})});
+  if(D.updated)$('#updated').textContent=`攻略資料整理日期：${D.updated}。遊戲剛發售，後期內容會陸續補齊。`;
+  ro.observe(route);refresh();buildIndex();watchSections();
+  if(location.hash&&location.hash.length>1){const t=document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView()}
+}
+
+/* one card open at a time on phones */
+document.addEventListener('toggle',e=>{const d=e.target;if(!d.matches||!d.matches('details.card')||!d.open||d.classList.contains('sec')||!narrow())return;
+  const list=d.closest('.ms');if(!list)return;let shifted=false;
+  list.querySelectorAll(':scope > .m > details.card[open], :scope > details.card[open]').forEach(o=>{if(o!==d){if(o.getBoundingClientRect().top<d.getBoundingClientRect().top)shifted=true;o.open=false}});
+  if(shifted)requestAnimationFrame(()=>(d.closest('.m')||d).scrollIntoView({block:'start'}));
+},true);
+document.addEventListener('change',e=>{const c=e.target.closest('.chk');if(!c)return;const id=c.dataset.id;c.checked?done.add(id):done.delete(id);store.set('gta6-done',[...done]);refresh()});
+route.addEventListener('click',e=>{const g=e.target.closest('.stop');if(g)go(g.dataset.go)});
+route.addEventListener('keydown',e=>{const g=e.target.closest('.stop');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();go(g.dataset.go)}});
+function nextMission(){const m=$$('.chap[id^=ch] .m[data-main="1"]').find(x=>!x.classList.contains('done'))||$$('.chap[id^=ch] .m').find(x=>!x.classList.contains('done'));if(m)openTo(m)}
+$('#next').addEventListener('click',nextMission);$('#dNext').addEventListener('click',nextMission);
+$$('.dock [data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('#hideDone').addEventListener('click',e=>{const on=document.body.classList.toggle('hide-done');e.currentTarget.setAttribute('aria-pressed',on);e.currentTarget.textContent=on?'顯示已完成':'隱藏已完成'});
+const FS=['m','l','xl'],FSL={m:'字 A',l:'字 A+',xl:'字 A++'};let fs=store.get('gta6-fs','m');
+const applyFs=()=>{document.documentElement.dataset.fs=fs;$('#fontBtn').textContent=FSL[fs];drawRoute()};applyFs();
+$('#fontBtn').addEventListener('click',()=>{fs=FS[(FS.indexOf(fs)+1)%FS.length];store.set('gta6-fs',fs);applyFs()});
+document.addEventListener('click',e=>{const b=e.target.closest('.filters button');if(!b)return;const f=b.dataset.f;b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));$$('#tt tbody tr').forEach(r=>{r.style.display=f==='all'||(f==='miss'?r.dataset.miss==='1':r.dataset.g===f)?'':'none'})});
+const msg=t=>{$('#msg').textContent=t};
+$('#copyCode').addEventListener('click',async()=>{let code='';try{code=btoa(unescape(encodeURIComponent(JSON.stringify([...done]))))}catch(e){}$('#code').value=code;try{await navigator.clipboard.writeText(code);msg('進度碼已複製，貼到另一台裝置就能還原。')}catch(e){msg('進度碼在上面的框裡，請手動全選複製。')}});
+$('#restore').addEventListener('click',()=>{try{const a=JSON.parse(decodeURIComponent(escape(atob($('#code').value.trim()))));if(!Array.isArray(a))throw 0;done=new Set(a.map(String));store.set('gta6-done',[...done]);$$('.chk').forEach(c=>c.checked=done.has(c.dataset.id));refresh();msg(`已還原 ${done.size} 個完成項目。`)}catch(e){msg('進度碼格式不對，請確認有完整貼上。')}});
+let armed=0;$('#reset').addEventListener('click',e=>{if(!armed){armed=1;e.currentTarget.textContent='確定清除？再按一次';setTimeout(()=>{armed=0;$('#reset').textContent='清除全部進度'},4000);return}armed=0;done=new Set();store.set('gta6-done',[]);$$('.chk').forEach(c=>c.checked=false);refresh();e.currentTarget.textContent='清除全部進度';msg('進度已清除。')});
+
+let inline=null;try{inline=JSON.parse($('#gdata').textContent)}catch(e){}
+if(inline)render(inline);else fetch('data.json').then(r=>r.json()).then(render).catch(()=>{$('#main').innerHTML='<div class="band"><div class="wrap empty">攻略資料載入失敗，請重新整理頁面。</div></div>'});
+}
+</script>
+</body>
+</html>
